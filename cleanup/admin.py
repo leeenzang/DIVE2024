@@ -3,8 +3,9 @@ from .models import Cleanup
 
 @admin.register(Cleanup)
 class CleanupAdmin(admin.ModelAdmin):
-    list_display = ('coast_name', 'coast_length', 'litter_bags_count', 'main_litter_type')
-    search_fields = ('coast_name', 'main_litter_type')
-    list_filter = ('main_litter_type',)
+    list_display = ('coast_name', 'coast_length', 'litter_bags_count', 'main_litter_type', 'cleaner_name', 'cleanup_serial_number')
+    search_fields = ('coast_name', 'main_litter_type', 'cleaner_name')
+    list_filter = ('main_litter_type', 'cleaner_name')
 
-    readonly_fields = ('arrival_timestamp', 'arrival_latitude', 'arrival_longitude')  # 읽기 전용 필드 설정
+    # 실제로 모델에 존재하는 필드를 읽기 전용으로 설정
+    readonly_fields = ('cleanup_serial_number', 'calculated_litter_amount', 'timestamp')
