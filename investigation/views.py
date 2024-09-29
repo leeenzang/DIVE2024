@@ -7,5 +7,5 @@ class InvestigationViewSet(viewsets.ModelViewSet):
     serializer_class = InvestigationSerializer
 
     def perform_create(self, serializer):
-        # 여기서는 위경도와 관련된 데이터는 프론트에서 처리하므로, 자동으로 날짜는 저장
+        # 사용자 입력 기반으로 데이터를 저장
         serializer.save()
