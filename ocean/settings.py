@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     "investigation",
     "cleanup",
+    'drf_yasg',
+
 ]
 
 MIDDLEWARE = [
@@ -134,3 +136,5 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
 }
+
+CORS_ALLOW_ALL_ORIGINS = True
