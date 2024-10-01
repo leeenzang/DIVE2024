@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "investigation",
     "cleanup",
     'drf_yasg',
+    "management",
 
 ]
 
@@ -113,11 +114,11 @@ AUTH_USER_MODEL = 'users.CustomUser'
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
