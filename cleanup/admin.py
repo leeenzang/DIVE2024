@@ -3,7 +3,7 @@ from .models import Cleanup
 
 @admin.register(Cleanup)
 class CleanupAdmin(admin.ModelAdmin):
-    list_display = ('cleanup_serial_number', 'coast_name', 'coast_length', 'litter_bags_count', 'main_litter_type', 'cleaner_name', 'is_collected')
+    list_display = ('cleanup_serial_number', 'coast_name', 'coast_length', 'litter_bags_count', 'main_litter_type', 'cleaner_name', 'calculated_litter_amount', 'is_collected')
     search_fields = ('coast_name', 'main_litter_type', 'cleaner_name')
     list_filter = ('main_litter_type', 'cleaner_name')
 

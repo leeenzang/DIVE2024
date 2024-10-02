@@ -1,6 +1,8 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from cleanup.models import Cleanup
+from driver.models import DriverTask
+from django.utils import timezone
 
 # 수거되지 않은 쓰레기 데이터를 필터링해서 보내주는 뷰
 @api_view(['GET'])
@@ -55,3 +57,28 @@ def filter_selected_cleanup_view(request):
     )
 
     return Response(data)
+    
+@api_view(['POST'])
+def mark_as_collected_driver(request, driver_name):
+    try:
+        # 프론트엔드에서 전달된 청소자 일련번호 리스트
+        collected_serial_numbers = request.data.get('collected_serial_numbers', [])
+        
+        # 청소자 데이터를 조회하여 총 수거량 계산
+        total_collected_litter = 0
+        for serial_number in collected_serial_numbers:
+            cleanup = Cleanup.objects.get(cleanup_serial_number=serial_number)
+            total_collected_litter += cleanup.calculated_litter_amount  # 이미 계산된 수거량을 더함
+
+        # 운전자가 완료한 작업을 기록
+        driver_task = DriverTask(
+            driver_name=driver_name,
+            total_collected_litter=total_collected_litter,  # 총 수거량 저장
+            collected_serial_numbers=collected_serial_numbers
+        )
+
+        driver_task.save()
+
+        return Response({"message": "Driver task marked as completed.", "total_collected_litter": total_collected_litter}, status=200)
+    except Cleanup.DoesNotExist:
+        return Response({"error": "Cleanup data not found."}, status=404)
