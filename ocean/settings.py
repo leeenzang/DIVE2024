@@ -43,8 +43,7 @@ INSTALLED_APPS = [
     "investigation",
     "cleanup",
     'drf_yasg',
-    "management",
-
+    "driver",
 ]
 
 MIDDLEWARE = [
