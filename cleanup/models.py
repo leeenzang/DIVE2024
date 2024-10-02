@@ -43,6 +43,8 @@ class Cleanup(models.Model):
     # 청소 완료 (전경 사진, 집하 장소 사진)
     completion_photo_landscape = models.ImageField(upload_to='photos/completion/landscape/', blank=True, null=True)
     completion_photo_collection_site = models.ImageField(upload_to='photos/completion/site/', blank=True, null=True)
+    
+    is_collected = models.BooleanField(default=False)  # 운전자가 수거 했는지 여부 확인 기본값 False
 
     def generate_serial_number(self):
         # 현재 날짜와 시간 + 3자리 무작위 숫자 조합으로 일련번호 생성
