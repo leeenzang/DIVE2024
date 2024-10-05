@@ -11,5 +11,4 @@ urlpatterns = [
     path('litter-type-ratio/', get_litter_type_ratio, name='litter_type_ratio'),
     path('predicted-vs-actual-comparison/', get_predicted_vs_actual_comparison, name='predicted_vs_actual_comparison'),
     path('create-user/', CreateUserView.as_view(), name='create-user'),
-
 ]
