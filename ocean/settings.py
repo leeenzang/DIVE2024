@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-#+i#1wb8dwc-%j@%-@u9z1kt#rqakmpzfbx93*8hk83v*lo#6-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     "driver",
     "common",
+    "manager",
 ]
 
 MIDDLEWARE = [
@@ -139,3 +140,4 @@ REST_FRAMEWORK = {
 }
 
 CORS_ALLOW_ALL_ORIGINS = True
+

@@ -24,6 +24,7 @@ urlpatterns = [
     path('cleanup/', include('cleanup.urls')),  # cleanup 앱의 URL을 포함
     path('driver/', include('driver.urls')),  
     path('common/', include('common.urls')),  # common 앱의 URL 포함
+    path('manager/', include('manager.urls')),  # common 앱의 URL 포함
 
     # Swagger URL
     re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
