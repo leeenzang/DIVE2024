@@ -8,7 +8,6 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from users.models import CustomUser  # CustomUser 모델을 사용
 from users.serializers import CustomUserSerializer  # 사용자 시리얼라이저 사용
-
 def filter_data_by_period_and_type(data_type, start_date, end_date, coast_names=None):
     if data_type == 'investigator':
         # 조사자 데이터를 기간으로만 필터링하거나 해안명을 추가로 필터링
@@ -189,3 +188,30 @@ class CreateUserView(APIView):
             serializer.save()  # 새로운 사용자 생성
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# 관리자만 접근 가능하도록 하는 권한 클래스
+class IsAdmin(permissions.BasePermission):
+    def has_permission(self, request, view):
+        return request.user.is_authenticated and request.user.role == 'admin'
+
+# 회원 목록 조회 API 뷰
+class UserListView(APIView):
+    permission_classes = [IsAdmin]  # 관리자만 접근 가능
+
+    def get(self, request):
+        users = CustomUser.objects.all()  # 모든 사용자 가져오기
+        serializer = CustomUserSerializer(users, many=True)  # 시리얼라이저로 변환
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+# 회원 삭제 API 뷰
+class DeleteUserView(APIView):
+    permission_classes = [IsAdmin]  # 관리자만 접근 가능
+
+    def delete(self, request, username):
+        try:
+            user = CustomUser.objects.get(username=username)  # 특정 사용자 찾기
+            user.delete()  # 사용자 삭제
+            return Response({'message': 'User deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
+        except CustomUser.DoesNotExist:
+            return Response({'error': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
