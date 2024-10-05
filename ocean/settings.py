@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "cleanup",
     'drf_yasg',
     "driver",
+    "common",
 ]
 
 MIDDLEWARE = [
