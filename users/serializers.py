@@ -4,9 +4,11 @@ from django.contrib.auth import authenticate
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 class CustomUserSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)  # 비밀번호는 응답에 포함되지 않도록 설정
+
     class Meta:
         model = CustomUser
-        fields = ['username', 'password', 'name', 'role']
+        fields = ['username', 'password', 'name', 'role', 'contact']
     
     # 비밀번호는 암호화하여 저장하도록 처리
     def create(self, validated_data):
@@ -14,7 +16,8 @@ class CustomUserSerializer(serializers.ModelSerializer):
             username=validated_data['username'],
             password=validated_data['password'],
             name=validated_data['name'],
-            role=validated_data['role']
+            role=validated_data['role'],
+            contact=validated_data['contact'] 
         )
         return user
     

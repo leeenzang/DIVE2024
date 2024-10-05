@@ -14,7 +14,7 @@ class CustomUser(AbstractUser):
     name = models.CharField(max_length=255)
     # 사용자 역할 필드 추가
     role = models.CharField(max_length=50, choices=ROLE_CHOICES, default='investigator')
-
+    contact = models.CharField(max_length=15, blank=True, null=True)  # 연락처 필드
     # username을 로그인 ID로 사용
     USERNAME_FIELD = 'username'
     

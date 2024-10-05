@@ -3,7 +3,11 @@ from django.db.models import Q, Sum
 from investigation.models import Investigation
 from cleanup.models import Cleanup
 from common.models import Coastline
-
+from rest_framework import permissions, status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from users.models import CustomUser  # CustomUser 모델을 사용
+from users.serializers import CustomUserSerializer  # 사용자 시리얼라이저 사용
 
 def filter_data_by_period_and_type(data_type, start_date, end_date, coast_names=None):
     if data_type == 'investigator':
@@ -167,3 +171,21 @@ def get_predicted_vs_actual_comparison(request):
     }
 
     return JsonResponse({'comparison_data': comparison_data})
+
+
+# 관리자만 접근 가능하도록 하는 권한 클래스
+class IsAdmin(permissions.BasePermission):
+    def has_permission(self, request, view):
+        # role이 admin인 경우에만 허용
+        return request.user.is_authenticated and request.user.role == 'admin'
+
+# 회원 생성 API 뷰
+class CreateUserView(APIView):
+    permission_classes = [IsAdmin]  # 관리자만 접근 가능
+
+    def post(self, request):
+        serializer = CustomUserSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()  # 새로운 사용자 생성
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
